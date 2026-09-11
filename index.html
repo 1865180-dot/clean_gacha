@@ -43,7 +43,7 @@
       75% { transform: translate(3px, -2px) rotate(1deg); }
     }
 
-    /* 落ちるカプセル（ズレ防止用に位置調整を調整） */
+    /* 落ちるカプセル */
     .capsule-drop {
       animation: dropCapsule 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
     }
@@ -143,10 +143,10 @@
             </div>
           </div>
 
-          <!-- 排出口エリア（overflow-visibleで飛び出しを許容） -->
+          <!-- 排出口エリア -->
           <div class="relative w-44 h-20 bg-slate-800 rounded-xl border-4 border-slate-900 shadow-inner flex items-center justify-center overflow-visible">
             
-            <!-- 出現するカプセル（中心配置を確定させるクラスを付与） -->
+            <!-- 出現するカプセル -->
             <div 
               id="dispensedCapsuleContainer" 
               class="hidden absolute inset-x-0 -bottom-3 m-auto w-fit z-30 flex flex-col items-center cursor-pointer" 
@@ -159,9 +159,10 @@
                 <span>タップで開く！</span>
               </div>
 
-              <!-- カプセル本体 -->
-              <div id="dispensedCapsule" class="w-16 h-16 rounded-full shadow-2xl border-2 border-white/60 flex items-center justify-center transform hover:scale-105 transition-transform overflow-hidden">
-                <div class="w-full h-1/2 bg-white/30 rounded-t-full border-b border-white/40"></div>
+              <!-- カプセル本体（relative と overflow-hidden を確実に保持） -->
+              <div id="dispensedCapsule" class="relative w-16 h-16 rounded-full shadow-2xl border-2 border-white/60 flex flex-col justify-start items-center hover:scale-105 transition-transform overflow-hidden">
+                <!-- 上半分の透明ドーム部分 -->
+                <div class="w-full h-1/2 bg-white/40 border-b border-white/50"></div>
               </div>
             </div>
 
@@ -354,8 +355,9 @@
 
         currentResult = gachaData[Math.floor(Math.random() * gachaData.length)];
 
+        // カプセル描画の構造クラスを維持したまま、色（グラデーション）のみ変更
         const dispensedCapsule = document.getElementById('dispensedCapsule');
-        dispensedCapsule.className = `w-16 h-16 rounded-full shadow-2xl border-2 border-white/60 flex items-center justify-center overflow-hidden bg-gradient-to-tr ${currentResult.color}`;
+        dispensedCapsule.className = `relative w-16 h-16 rounded-full shadow-2xl border-2 border-white/60 flex flex-col justify-start items-center hover:scale-105 transition-transform overflow-hidden bg-gradient-to-tr ${currentResult.color}`;
 
         capsuleContainer.classList.remove('hidden');
         capsuleContainer.classList.add('capsule-drop');
